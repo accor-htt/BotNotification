@@ -1,0 +1,47 @@
+webs
+webs.pub
+
+# phpstorm project files
+.idea
+
+.env
+config.js
+
+.phpintel/
+views/site/_old/
+vendor/
+web/assets/
+controllers/KozubskyController.php
+actions/KozubskyModelAction.php
+modules/news/models/NewsItemAdd.php.orig
+composer.phar
+
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+/web/static/minimize/node_modules/
+
+runtime/cache/
+runtime/file.txt
+runtime
+
+#vue config
+/web/new/config.js
+
