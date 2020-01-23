@@ -9,7 +9,8 @@ config.js
 
 .phpintel/
 views/site/_old/
-vendor/
+# composer vendor dir
+/vendor
 web/assets/
 controllers/KozubskyController.php
 actions/KozubskyModelAction.php
