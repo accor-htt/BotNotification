@@ -19,7 +19,9 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "vlucas/phpdotenv": "^4.1",
-        "fab1en/rocket-chat-rest-client": "^1.0"
+        "fab1en/rocket-chat-rest-client": "^1.0",
+        "rastor/jira-client": "~0.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
