@@ -8,4 +8,7 @@ return [
     'jiraServer' => getenv('JIRA_SERVER'),
     'jiraLogin'  => getenv('JIRA_LOGIN'),
     'jiraPass'  => getenv('JIRA_API_KEY'),
+    'rocketServer' => getenv('ROCKET_CHAT_SERVER'),
+    'rocketLogin'  => getenv('ROCKET_BOT_NAME'),
+    'rocketPass'  => getenv('ROCKET_BOT_PASS'),
 ];

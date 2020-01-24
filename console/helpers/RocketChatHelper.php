@@ -11,12 +11,13 @@ class RocketChatHelper
     public static function sendMessage($channel, $message)
     {
         define('REST_API_ROOT', '/api/v1/');
-        define('ROCKET_CHAT_INSTANCE', \Yii::$app->params['rocket_chat_server']);
+        define('ROCKET_CHAT_INSTANCE', \Yii::$app->params['rocketServer']);
         try {
-            $username = \Yii::$app->params['rocket_chat_bot_pass'];
-            $password = \Yii::$app->params['rocket_chat_bot_pass'];
+            $username = \Yii::$app->params['rocketLogin'];
+            $password = \Yii::$app->params['rocketPass'];
             $user     = new User($username, $password);
 
+            var_dump($channel);
             $user->login();
             $channel = new Channel($channel);
 
