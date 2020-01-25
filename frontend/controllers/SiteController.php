@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use console\models\TimeDaemons;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -75,7 +76,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $data = TimeDaemons::find()->asArray()->all();
+        return $this->render('index', ['data' => $data]);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Staff;
+use console\models\Staff;
 
 /**
  * StaffSearch represents the model behind the search form of `app\models\Staff`.

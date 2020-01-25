@@ -17,9 +17,9 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-lg-3 blocks">
-                <h2>Heading</h2>
-                <p></p>
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                <h2>Уведомления еды</h2>
+                <p><?= $data[0]['name'] ?></p>
+                <p><?= date('Y-m-d H:i:s', $data[0]['last_time_work']) ?></p>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                         60%
@@ -86,7 +86,7 @@ $this->title = 'My Yii Application';
     .blocks {
         border: 1px solid black;
         border-radius: 20px;
-        padding: 50px;
+        padding: 60px;
         margin: 30px;
         width: 30%;
         background: aliceblue;
