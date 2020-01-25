@@ -90,6 +90,7 @@ $this->title = 'My Yii Application';
         border: 1px solid black;
         padding: 50px;
         margin: 30px;
+        width: 30%;
     }
 
 </style>

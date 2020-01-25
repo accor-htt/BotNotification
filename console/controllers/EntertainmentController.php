@@ -33,4 +33,31 @@ class EntertainmentController extends Controller
             sleep($this->twenty_four_hours);
         }
     }
+
+    public function actionCoursesAndBooks()
+    {
+        while(true)
+        {
+            $message1 = '@all, Внимание! 
+            Для закупки книг в офис или оплаты ваших профессиональных курсов до 10 числа вам нужно оставить заявку в таблице 
+            https://docs.google.com/spreadsheets/d/1Pz0eAphG-IescdNte24KuTQqkNbNw76guHXs_ZzneCk/edit#gid=0';
+
+            RocketChatHelper::sendMessage($this->channel, $message1);
+            sleep(60);
+
+            $message2 = '@all, Внимание! 
+            Для закупки книг в офис или оплаты ваших курсов до 10 числа вам нужно оставить заявку в таблице: 
+            https://docs.google.com/spreadsheets/d/13aqwuDFBDJO-eoHOQDHTd85HDXdp3pp9D8oH_B75coE/edit#gid=0';
+
+            RocketChatHelper::sendMessage($this->channel, $message2);
+            sleep(60);
+
+            $message3 = '@all, Внимание! 
+            Для закупки оплаты ваших занятий по творческому направлению до 15 числа вам нужно оставить заявку в таблице 
+            https://docs.google.com/spreadsheets/d/1vZdAIcHrwHowJNQHwwYdeferTIDy8rbeMw_hhaQg9qM/edit#gid=0';
+
+            RocketChatHelper::sendMessage($this->channel, $message2);
+            sleep($this->twenty_four_hours * 30);
+        }
+    }
 }
