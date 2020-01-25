@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use console\models\Staff;
+use console\models\TimeDaemons;
 use yii\console\Controller;
 use console\helpers\RocketChatHelper;
 
@@ -14,14 +15,45 @@ class EntertainmentController extends Controller
 
     public function actionIndex()
     {
-        $time = '11:00';
+        $time = '11:00:00';
         while(true) {
-
-            // todo проверка на первое включение, чтобы уведомление было в 10 утра, а потом каждые 24 часа
 
             $dateNow        = date('m-d');
             $currentYear        = date('Y');
             $birthday = Staff::find()->asArray()->all();
+
+            $dateNow = date('H:i:s', strtotime('+7 hours'));
+            $model = TimeDaemons::find()->where(['name' => $this->channel])->one();
+            if (empty($model)) {
+
+                if (strtotime($time) != strtotime($dateNow)) {
+                    $sleep = strtotime($time) - strtotime($dateNow);
+                    var_dump($sleep);
+                    sleep($sleep);
+                }
+
+                if ( !empty($birthday)) {
+                    foreach ($birthday as $birth) {
+                        if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
+                            $name = explode(' ', $birth['username']);
+                            $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
+                            $client = new \GuzzleHttp\Client();
+                            $response = $client->get($url);
+                            $message2 = (string)$response->getBody();
+                            $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
+                        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
+                            RocketChatHelper::sendMessage($this->channel, $message);
+                            sleep(30);
+                        }
+                    }
+                }
+
+                $model = new TimeDaemons();
+                $model->name = $this->channel;
+                $model->last_time_work = time();
+                sleep($this->twenty_four_hours);
+                continue;
+            }
 
             if ( !empty($birthday)) {
                 foreach ($birthday as $birth) {
