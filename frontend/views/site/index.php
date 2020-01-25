@@ -11,9 +11,6 @@ $this->title = 'My Yii Application';
         <p class="lead">Это простой пример блока с компонентом в стиле jumbotron для привлечения дополнительного внимания к содержанию или информации.</p>
         <hr class="my-4">
         <p>Использются служебные классы для типографики и расстояния содержимого в контейнере большего размера.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
     </div>
 
     <div class="body-content">
@@ -88,9 +85,20 @@ $this->title = 'My Yii Application';
 
     .blocks {
         border: 1px solid black;
+        border-radius: 20px;
         padding: 50px;
         margin: 30px;
         width: 30%;
+        background: aliceblue;
+    }
+
+    body {
+        background-image: url("https://avatars.mds.yandex.net/get-pdb/1245924/724284f6-9a6d-4b38-ac2c-740ef566311f/s1200");
+    }
+
+    .jumbotron {
+        background: #5a6268;
+        opacity: 95%;
     }
 
 </style>
