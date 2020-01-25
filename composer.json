@@ -21,7 +21,8 @@
         "vlucas/phpdotenv": "^4.1",
         "fab1en/rocket-chat-rest-client": "^1.0",
         "rastor/jira-client": "~0.4",
-        "ext-json": "*"
+        "ext-json": "*",
+        "yiisoft/yii2-bootstrap4": "~2.0.6"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
