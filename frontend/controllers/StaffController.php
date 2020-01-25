@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Staff;
+use console\models\Staff;
 use app\models\StaffSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
