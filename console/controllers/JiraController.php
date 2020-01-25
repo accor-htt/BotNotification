@@ -21,8 +21,8 @@ class JiraController extends Controller
             if (empty($task['fields']['duedate'])) {
                 $rocketChat = Staff::find()->where(['jira_nickname' => $task['fields']['assignee']['key']])->one();
                 $temp[$rocketChat['rocket_chat_id']] = $task['key'];
-//                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: '.$task['key'];
-//                RocketChatHelper::sendMessage($this->channel, $message);
+                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: '.$task['key'];
+                RocketChatHelper::sendMessage('@Anastasiya-Tester', $message);
             }
         }
         var_dump($temp);

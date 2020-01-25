@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use console\helpers\DateHelper;
 use console\helpers\RocketChatHelper;
 use console\models\Staff;
 use console\models\TimeDaemons;
@@ -21,6 +22,11 @@ class EatController extends Controller
 
             $timeN = '16:20';
             $message = '@all Ребята, не забудьте заказать еду! Заказ будет отправлен в '.$timeN.', нужно всем успеть до этого времени.';
+
+            if (DateHelper::isWeekend(date('Y-m-d H:i:s'))) {
+                sleep($this->twenty_four_hours);
+                continue;
+            }
 
             $dateNow = date('H:i:s', strtotime('+7 hours'));
             $model = TimeDaemons::find()->where(['name' => $this->channel])->asArray()->one();
@@ -46,7 +52,7 @@ class EatController extends Controller
 //            if ($model['last_time_work'])
 
             $time = '16:20';
-            $message = '@all Ребята, не забудьте заказать еду! Заказ будет отправлен в'.$time.', нужно всем успеть до этого времени.
+            $message = '@all Ребята, не забудьте заказать еду! Заказ будет отправлен в '.$time.', нужно всем успеть до этого времени.
             https://docs.google.com/spreadsheets/d/1FCC-JUso0_t80OZyGKJ7ZQFZ1T90pQkm612-asNnbpM';
             RocketChatHelper::sendMessage($this->channel, $message);
             sleep($this->twenty_four_hours);
@@ -60,7 +66,14 @@ class EatController extends Controller
         while (true) {
 
             $dateNow = date('H:i:s', strtotime('+7 hours'));
+
             $dateCheck        = date('Y-m-d 00:00:00');
+
+            if (DateHelper::isWeekend($dateCheck)) {
+                sleep($this->twenty_four_hours);
+                continue;
+            }
+
             $attendantsId = (new Query())->from('Attendants')->where(['date' => $dateCheck])->one()['staff'];
 
             if (empty($attendantsId)) {
