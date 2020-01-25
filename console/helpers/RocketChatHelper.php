@@ -21,7 +21,6 @@ class RocketChatHelper
             $password = \Yii::$app->params['rocketPass'];
             $user     = new User($username, $password);
 
-            var_dump($channel);
             $user->login();
             $channel = new Channel($channel);
 
@@ -29,10 +28,5 @@ class RocketChatHelper
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-    }
-
-    public static function getNewUsers()
-    {
-        return ['hello_world'];
     }
 }

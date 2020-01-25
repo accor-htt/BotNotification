@@ -20,7 +20,7 @@ class EntertainmentController extends Controller
         while(true) {
 
             $dateNow        = date('m-d');
-            $currentYear        = date('Y');
+            $currentYear    = date('Y');
             $birthday = Staff::find()->asArray()->all();
 
             $dateNow = date('H:i:s', strtotime('+7 hours'));
@@ -99,7 +99,7 @@ class EntertainmentController extends Controller
             Для закупки оплаты ваших занятий по творческому направлению до 15 числа вам нужно оставить заявку в таблице 
             https://docs.google.com/spreadsheets/d/1vZdAIcHrwHowJNQHwwYdeferTIDy8rbeMw_hhaQg9qM/edit#gid=0';
 
-            RocketChatHelper::sendMessage($this->channel, $message2);
+            RocketChatHelper::sendMessage($this->channel, $message3);
             sleep($this->twenty_four_hours * 30);
         }
     }
