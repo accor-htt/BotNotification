@@ -2,10 +2,12 @@
 
 namespace console\controllers;
 
+use console\helpers\CurlHelper;
 use console\models\Staff;
 use console\models\TimeDaemons;
 use yii\console\Controller;
 use console\helpers\RocketChatHelper;
+use yii\helpers\HtmlPurifier;
 
 class EntertainmentController extends Controller
 {
@@ -109,9 +111,14 @@ class EntertainmentController extends Controller
         while (true) {
 
             $count = Staff::find()->count();
-            $rand = rand(0, $count);
+            $rand = rand(0, $count - 1);
 
             $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
+
+            if (empty($nameVictim)) {
+                $rand = rand(0, $count);
+                $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
+            }
 
             var_dump($nameVictim);
             $url = "https://slogen.ru/ajax/slogan.php?type=2&word=" . $nameVictim;
@@ -121,6 +128,25 @@ class EntertainmentController extends Controller
 
             $message2 = (string)$response->getBody();
             RocketChatHelper::sendMessage("faq_dnya", $message2);
+            sleep($this->twenty_four_hours);
+        }
+    }
+
+    public function actionHappyDay()
+    {
+        while (true) {
+            $date = (date('l \t\h\e jS'));
+            $course = number_format(mt_rand(15.1*1000000,16.7*1000000)/1000000, 2);
+            $url = [
+                '0' => 'http://umorili.herokuapp.com/api/get?site=bash.im&name=bash&num=100',
+                '1' => 'http://umorili.herokuapp.com/api/get?site=anekdot.html&name=new+anekdot&num=100'
+            ];
+
+            $client = (array)CurlHelper::connection($url[rand(0,1)]);
+            $joke = strip_tags($client[ rand(1,25)]->elementPureHtml);
+            $message =  strip_tags("Доброе утро! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, а жизнь все еще прекрасна и удивительна. Удачной работы и вот вам шутка дня: {$joke}");
+            RocketChatHelper::sendMessage($this->channel, $message);
+            var_dump('sleep');
             sleep($this->twenty_four_hours);
         }
     }
