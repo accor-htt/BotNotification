@@ -38,6 +38,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Демоны', 'url' => ['/site/index']],
         ['label' => 'Сотрудники', 'url' => ['/staff/index']],
+        ['label' => 'Каналы', 'url' => ['/channels/index']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -57,9 +58,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Html::encode("SmartCat") ?> <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= "Powered by SmartWorld" ?></p>
     </div>
 </footer>
 

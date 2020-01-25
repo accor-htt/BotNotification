@@ -14,6 +14,7 @@ class EntertainmentController extends Controller
 
     public function actionIndex()
     {
+        $time = '11:00';
         while(true) {
 
             // todo проверка на первое включение, чтобы уведомление было в 10 утра, а потом каждые 24 часа
@@ -26,18 +27,17 @@ class EntertainmentController extends Controller
                 foreach ($birthday as $birth) {
                     if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
                         $name = explode(' ', $birth['username']);
-                    $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
-                    $client = new \GuzzleHttp\Client();
-                    $response = $client->get($url);
-                    $message2 = (string)$response->getBody();
-
-                    $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
-                    А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                        $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
+                        $client = new \GuzzleHttp\Client();
+                        $response = $client->get($url);
+                        $message2 = (string)$response->getBody();
+                        $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
+                        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
+                        RocketChatHelper::sendMessage($this->channel, $message);
+                        sleep(30);
                     }
                 }
             }
-
             sleep($this->twenty_four_hours);
         }
     }

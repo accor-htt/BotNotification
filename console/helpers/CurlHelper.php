@@ -8,7 +8,6 @@ class CurlHelper
 {
     public static function connection($url)
     {
-
         $connection = curl_init();
         curl_setopt($connection, CURLOPT_URL, $url);
         curl_setopt($connection, CURLOPT_CUSTOMREQUEST, "GET");

@@ -14,6 +14,7 @@ class EnglishController extends Controller
 
     public function actionIndex()
     {
+        $time = '16:00:00';
         while(true) {
 
 //            $dateNow =

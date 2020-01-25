@@ -16,14 +16,16 @@ class JiraController extends Controller
         $api = JiraHelper::connect();
         $jql = 'project = SGN AND fixVersion in unreleasedVersions() AND status in ("Check Result", "In Progress", Open, REVIEW, "Review analytics", "TECHNICAL PROJECT", "To do") ORDER BY priority DESC';
         $issues = JiraHelper::getTasks($api, $jql);
+        $temp = [];
         foreach ($issues['issues'] as $task) {
             if (empty($task['fields']['duedate'])) {
-                $rocketChat = Staff::find()->where(['jira_nickname' => $task['fields']['assignee']['key']])->one()['rocket_chat_id'];
-                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: '.$task['key'];
-                RocketChatHelper::sendMessage($this->channel, $message);
-//                var_dump($task['key'].' '.$task['fields']['assignee']['key']);
+                $rocketChat = Staff::find()->where(['jira_nickname' => $task['fields']['assignee']['key']])->one();
+                $temp[$rocketChat['rocket_chat_id']] = $task['key'];
+//                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: '.$task['key'];
+//                RocketChatHelper::sendMessage($this->channel, $message);
             }
         }
+        var_dump($temp);
     }
 
     public function actionBlackBall()
@@ -31,9 +33,9 @@ class JiraController extends Controller
         $api = JiraHelper::connect();
         $dateNow = date('Y-m-d H:i:s');
         $dateYesterday = date('Y-m-d H:i:s', strtotime('-24 hours', time()));
-        $jql = 'project = SGN AND fixVersion in unreleasedVersions() ORDER BY priority DESC';
+//        $jql = 'project = SGN AND fixVersion in unreleasedVersions() ORDER BY priority DESC';
         $jqlLastDay = 'project = SGN AND updated >= -1d ORDER BY priority DESC';
-        $issues = JiraHelper::getTasks($api, $jql);
+        $issues = JiraHelper::getTasks($api, $jqlLastDay);
         foreach ($issues['issues'] as $task) {
             $comments = JiraHelper::getIssueRelease($api, $task['key']);
             foreach ($comments as $comment) {
@@ -46,5 +48,6 @@ class JiraController extends Controller
             }
 
         }
+        var_dump('end');
     }
 }
