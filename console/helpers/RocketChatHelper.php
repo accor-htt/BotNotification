@@ -7,7 +7,6 @@ use RocketChat\User;
 
 class RocketChatHelper
 {
-
     public static function sendMessage($channel, $message)
     {
         define('REST_API_ROOT', '/api/v1/');

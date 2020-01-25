@@ -10,8 +10,8 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
-//        JiraHelper::connect();
-        RocketChatHelper::sendMessage('overflow_cold_wallets', 'privet @Anastasiya-Tester ');
+        JiraHelper::connect();
+//        RocketChatHelper::sendMessage('@Anastasiya-Tester', 'nu privet @Anastasiya-Tester ');
         die;
     }
 }

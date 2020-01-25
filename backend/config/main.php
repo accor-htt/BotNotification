@@ -34,17 +34,17 @@ return [
                 ],
             ],
         ],
+        'db' =>  require('./common/config/db.php'),
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
