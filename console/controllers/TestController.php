@@ -10,7 +10,8 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
-        JiraHelper::connect();
+        $api = JiraHelper::connect();
+        JiraHelper::getIssueRelease($api, 'SGN-6304');
 //        RocketChatHelper::sendMessage('@Anastasiya-Tester', 'nu privet @Anastasiya-Tester ');
         die;
     }

@@ -1,7 +1,7 @@
 <?php
+
 namespace frontend\controllers;
 
-use console\helpers\JiraHelper;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
