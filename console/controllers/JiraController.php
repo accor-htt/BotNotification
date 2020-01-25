@@ -9,7 +9,7 @@ use yii\console\Controller;
 
 class JiraController extends Controller
 {
-    public $channel = 'testName';
+    public $channel = 'overflow_cold_wallets';
 
     public function actionIndex()
     {
@@ -19,8 +19,8 @@ class JiraController extends Controller
         foreach ($issues['issues'] as $task) {
             if (empty($task['fields']['duedate'])) {
                 $rocketChat = Staff::find()->where(['jira_nickname' => $task['fields']['assignee']['key']])->one()['rocket_chat_id'];
-                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: {список задач из jira}';
-                RocketChatHelper::sendMessage($rocketChat, $message);
+                $message = 'Привет! На тебе есть задачи в релизе {релиз дата}, нужно срочно выставить срок исполнения. А то черный шар . Вот эти задачи: '.$task['key'];
+                RocketChatHelper::sendMessage($this->channel, $message);
 //                var_dump($task['key'].' '.$task['fields']['assignee']['key']);
             }
         }

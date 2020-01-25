@@ -2,9 +2,7 @@
 
 namespace console\controllers;
 
-use console\helpers\CurlHelper;
 use console\models\Staff;
-use http\Client;
 use yii\console\Controller;
 use console\helpers\RocketChatHelper;
 
@@ -20,16 +18,23 @@ class EntertainmentController extends Controller
 
             // todo проверка на первое включение, чтобы уведомление было в 10 утра, а потом каждые 24 часа
 
-            $dateNow        = date('Y-m-d 00:00:00');
-            $currentYear    = date('Y');
-            $birthday = Staff::find()->where(['date_birthday' => $dateNow])->asArray()->all();
+            $dateNow        = date('m-d');
+            $currentYear        = date('Y');
+            $birthday = Staff::find()->asArray()->all();
 
             if ( !empty($birthday)) {
                 foreach ($birthday as $birth) {
-                    $age = $currentYear - date('Y', strtotime($birth['date_birthday']));
-                    $message = 'Сегодня у нас праздник! День рождение!'.$birth['rocket_chat_id'].', принимай поздравление. 
-                    А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: {бред]';
+                    if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
+                        $name = explode(' ', $birth['username']);
+                    $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
+                    $client = new \GuzzleHttp\Client();
+                    $response = $client->get($url);
+                    $message2 = (string)$response->getBody();
+
+                    $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
+                    А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
                     RocketChatHelper::sendMessage($this->channel, $message);
+                    }
                 }
             }
 
