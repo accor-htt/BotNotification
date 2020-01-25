@@ -16,7 +16,7 @@ class EnglishController extends Controller
     {
         while(true) {
 
-            $dateNow =
+//            $dateNow =
 
             $model = TimeDaemons::find()->where(['name' => $this->channel])->one();
             if (empty($model)) {

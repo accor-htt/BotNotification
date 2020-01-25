@@ -2,13 +2,16 @@
 
 namespace console\controllers;
 
+use console\helpers\CurlHelper;
 use console\models\Staff;
+use http\Client;
 use yii\console\Controller;
 use console\helpers\RocketChatHelper;
 
 class EntertainmentController extends Controller
 {
-    public $channel = 'entertainment';
+//    public $channel = 'entertainment';
+    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
@@ -58,6 +61,27 @@ class EntertainmentController extends Controller
 
             RocketChatHelper::sendMessage($this->channel, $message2);
             sleep($this->twenty_four_hours * 30);
+        }
+    }
+
+    public function actionFactDay()
+    {
+        while (true) {
+
+            $count = Staff::find()->count();
+            $rand = rand(0, $count);
+
+            $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
+
+            var_dump($nameVictim);
+            $url = "https://slogen.ru/ajax/slogan.php?type=2&word=" . $nameVictim;
+
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get($url);
+
+            $message2 = (string)$response->getBody();
+            RocketChatHelper::sendMessage("faq_dnya", $message2);
+            sleep($this->twenty_four_hours);
         }
     }
 }
