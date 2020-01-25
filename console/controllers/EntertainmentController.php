@@ -3,6 +3,7 @@
 namespace console\controllers;
 
 use console\helpers\CurlHelper;
+use console\helpers\DateHelper;
 use console\models\Staff;
 use console\models\TimeDaemons;
 use yii\console\Controller;
@@ -11,8 +12,8 @@ use yii\helpers\HtmlPurifier;
 
 class EntertainmentController extends Controller
 {
-//    public $channel = 'entertainment';
-    public $channel = 'overflow_cold_wallets';
+    public $channel = 'entertainment';
+//    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
@@ -149,13 +150,15 @@ class EntertainmentController extends Controller
 
                 $client = (array)CurlHelper::connection($url[rand(0,1)]);
                 $joke = strip_tags($client[ rand(1,25)]->elementPureHtml);
+//                if(DateHelper::isWeekend(date('Y-m-d'))) {
+//
+//                }
 //                $message =  strip_tags("Доброе утро! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, а жизнь все еще прекрасна и удивительна. Удачной работы и вот вам шутка дня: {$joke}");
                 $message =  strip_tags("Доброе вечер! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, а жизнь все еще прекрасна и удивительна. Удачного выходного и вот вам шутка дня: {$joke}");
                 RocketChatHelper::sendMessage($this->channel, $message);
                 var_dump('sleep');
                 sleep($this->twenty_four_hours);
             } else {
-                var_dump('111');
                 var_dump(strtotime($time) - strtotime($date));
                 sleep(strtotime($time) - strtotime($date));
                 continue;
