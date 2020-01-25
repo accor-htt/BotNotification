@@ -10,5 +10,6 @@ class TestController extends Controller
 {
     public function actionIndex()
     {
+        RocketChatHelper::sendMessage('overflow_cold_wallets', ':roma_s:');
     }
 }

@@ -16,6 +16,7 @@ class EntertainmentController extends Controller
     public function actionIndex()
     {
         $time = '11:00:00';
+        $daemon = 'birthday_daemon';
         while(true) {
 
             $dateNow        = date('m-d');
@@ -23,7 +24,7 @@ class EntertainmentController extends Controller
             $birthday = Staff::find()->asArray()->all();
 
             $dateNow = date('H:i:s', strtotime('+7 hours'));
-            $model = TimeDaemons::find()->where(['name' => $this->channel])->one();
+            $model = TimeDaemons::find()->where(['name' => $daemon])->one();
             if (empty($model)) {
 
                 if (strtotime($time) != strtotime($dateNow)) {
@@ -49,8 +50,8 @@ class EntertainmentController extends Controller
                 }
 
                 $model = new TimeDaemons();
-                $model->name = $this->channel;
-                $model->last_time_work = time();
+                $model->name = $daemon;
+                $model->last_time_work = time() + 7 * 3600;
                 sleep($this->twenty_four_hours);
                 continue;
             }
@@ -76,6 +77,8 @@ class EntertainmentController extends Controller
 
     public function actionCoursesAndBooks()
     {
+        $time = '15:00:00';
+        $daemon = 'course_book_daemon';
         while(true)
         {
             $message1 = '@all, Внимание! 

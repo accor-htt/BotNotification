@@ -36,17 +36,22 @@ class JiraController extends Controller
 //        $jql = 'project = SGN AND fixVersion in unreleasedVersions() ORDER BY priority DESC';
         $jqlLastDay = 'project = SGN AND updated >= -1d ORDER BY priority DESC';
         $issues = JiraHelper::getTasks($api, $jqlLastDay);
-        foreach ($issues['issues'] as $task) {
-            $comments = JiraHelper::getIssueRelease($api, $task['key']);
-            foreach ($comments as $comment) {
-                $dateComment = date('Y-m-d H:i:s', strtotime($comment['created']));
-                if ($dateNow >= $dateComment && $dateComment >= $dateYesterday) {
-                    if (stristr($comment['body'], '(flag)')) {
-                        var_dump($task['key']);
+        if (!empty($issues)) {
+            RocketChatHelper::sendMessage('private_black_balls', 'SIGEN');
+            foreach ($issues['issues'] as $task) {
+                $comments = JiraHelper::getIssueRelease($api, $task['key']);
+                foreach ($comments as $comment) {
+                    $dateComment = date('Y-m-d H:i:s', strtotime($comment['created']));
+                    if ($dateNow >= $dateComment && $dateComment >= $dateYesterday) {
+                        if (stristr($comment['body'], '(flag)')) {
+                            var_dump($task['key']);
+                            RocketChatHelper::sendMessage('private_black_balls', 'https://sigencore.atlassian.net/browse/'.$task['key']);
+
+                        }
                     }
                 }
-            }
 
+            }
         }
         var_dump('end');
     }
