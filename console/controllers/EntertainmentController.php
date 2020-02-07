@@ -13,7 +13,6 @@ use yii\helpers\HtmlPurifier;
 class EntertainmentController extends Controller
 {
     public $channel = 'entertainment';
-//    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
@@ -109,12 +108,16 @@ class EntertainmentController extends Controller
 
     public function actionFactDay()
     {
-
         while (true) {
+
+            if (DateHelper::isWeekend(date('Y-m-d'))) {
+                var_dump('today weekend');
+                sleep($this->twenty_four_hours);
+                continue;
+            }
 
             $count = Staff::find()->count();
             $rand = rand(0, $count - 1);
-
             $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
 
             if (empty($nameVictim)) {
@@ -136,33 +139,27 @@ class EntertainmentController extends Controller
 
     public function actionHappyDay()
     {
-        $time = '21:15:00';
-
         while (true) {
-            $date = date('H:i:s', strtotime('+7 hours'));
-            if ($time == $date) {
-                $date = (date('l \t\h\e jS'));
-                $course = number_format(mt_rand(15.1*1000000,16.7*1000000)/1000000, 2);
-                $url = [
-                    '0' => 'http://umorili.herokuapp.com/api/get?site=bash.im&name=bash&num=100',
-                    '1' => 'http://umorili.herokuapp.com/api/get?site=anekdot.html&name=new+anekdot&num=100'
-                ];
+            $date = DateHelper::getTime();
+            $course = number_format(mt_rand(17.0*1000000,17.65*1000000)/1000000, 2);
 
-                $client = (array)CurlHelper::connection($url[rand(0,1)]);
-                $joke = strip_tags($client[ rand(1,25)]->elementPureHtml);
-//                if(DateHelper::isWeekend(date('Y-m-d'))) {
-//
-//                }
-//                $message =  strip_tags("Доброе утро! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, а жизнь все еще прекрасна и удивительна. Удачной работы и вот вам шутка дня: {$joke}");
-                $message =  strip_tags("Доброе вечер! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, а жизнь все еще прекрасна и удивительна. Удачного выходного и вот вам шутка дня: {$joke}");
-                RocketChatHelper::sendMessage($this->channel, $message);
-                var_dump('sleep');
+            $url = [
+                '0' => 'http://umorili.herokuapp.com/api/get?site=bash.im&name=bash&num=100',
+                '1' => 'http://umorili.herokuapp.com/api/get?site=anekdot.html&name=new+anekdot&num=100'
+            ];
+
+            $client = (array)CurlHelper::connection($url[rand(0,1)]);
+            $joke = strip_tags($client[ rand(1,25)]->elementPureHtml);
+            if (DateHelper::isWeekend(date('Y-m-d'))) {
+                var_dump('today weekend');
                 sleep($this->twenty_four_hours);
-            } else {
-                var_dump(strtotime($time) - strtotime($date));
-                sleep(strtotime($time) - strtotime($date));
                 continue;
             }
+            // жизнь все еще прекрасна и удивительна
+            $message =  strip_tags("Доброе утро! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, и все не так уж и плохо. Удачного рабочего дня и вот вам шутка дня: {$joke}");
+            RocketChatHelper::sendMessage($this->channel, $message);
+            var_dump('sleep');
+            sleep($this->twenty_four_hours);
         }
     }
 }
