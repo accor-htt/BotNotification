@@ -140,6 +140,7 @@ class EntertainmentController extends Controller
     public function actionHappyDay()
     {
         while (true) {
+            var_dump('start');
             $date = DateHelper::getTime();
             $course = number_format(mt_rand(17.0*1000000,17.65*1000000)/1000000, 2);
 
@@ -161,5 +162,21 @@ class EntertainmentController extends Controller
             var_dump('sleep');
             sleep($this->twenty_four_hours);
         }
+    }
+
+    public function actionOtchet()
+    {
+        var_dump('start');
+        $ids = [264, 240, 245, 239, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225];
+        $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
+        $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
+
+        foreach ($staff as $key) {
+            RocketChatHelper::sendMessage($key['rocket_chat_id'], $text);
+            var_dump($key['rocket_chat_id']);
+        }
+
+        var_dump('work done');
+        die();
     }
 }
