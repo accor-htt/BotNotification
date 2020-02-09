@@ -12,7 +12,7 @@ use yii\helpers\HtmlPurifier;
 
 class EntertainmentController extends Controller
 {
-    public $channel = 'entertainment';
+    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
@@ -142,7 +142,7 @@ class EntertainmentController extends Controller
         while (true) {
             var_dump('start');
             $date = DateHelper::getTime();
-            $course = number_format(mt_rand(17.0*1000000,17.65*1000000)/1000000, 2);
+            $course = number_format(mt_rand(18.55*1000000,20.00*1000000)/1000000, 2);
 
             $url = [
                 '0' => 'http://umorili.herokuapp.com/api/get?site=bash.im&name=bash&num=100',
@@ -151,14 +151,32 @@ class EntertainmentController extends Controller
 
             $client = (array)CurlHelper::connection($url[rand(0,1)]);
             $joke = strip_tags($client[ rand(1,25)]->elementPureHtml);
+
+            $url2 = 'https://ignio.com/r/export/utf/xml/daily/com.xml';
+            $client = new \GuzzleHttp\Client();
+            $response = $client->get($url2);
+            $message = $response->getBody();
+            $message = new \SimpleXMLElement($message);
+            $goroscope = ((array)$message->aries->today)[0];
+
             if (DateHelper::isWeekend(date('Y-m-d'))) {
                 var_dump('today weekend');
                 sleep($this->twenty_four_hours);
                 continue;
             }
-            // жизнь все еще прекрасна и удивительна
-            $message =  strip_tags("Доброе утро! <br />Сегодня {$date}, курс PRIZM на данный момент: {$course}, и все не так уж и плохо. Удачного рабочего дня и вот вам шутка дня: {$joke}");
+            $message =  strip_tags("
+                                         Доброе утро! 
+                                         Сегодня {$date}, 
+                                         курс PRIZM на данный момент: {$course}, 
+                                         и это ли не повод улыбнуться. Удачного рабочего дня :). 
+                                         А также вот гороскоп для всех призмавчан и роевцев: {$goroscope}
+                                         ");
+
+            $jokeMessage = "Забыл про шутку: 
+            {$joke}";
             RocketChatHelper::sendMessage($this->channel, $message);
+            sleep(5);
+            RocketChatHelper::sendMessage($this->channel, $jokeMessage);
             var_dump('sleep');
             sleep($this->twenty_four_hours);
         }
