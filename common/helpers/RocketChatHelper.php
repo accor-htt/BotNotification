@@ -1,6 +1,6 @@
 <?php
 
-namespace console\helpers;
+namespace common\helpers;
 
 use RocketChat\Channel;
 use RocketChat\User;

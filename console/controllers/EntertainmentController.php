@@ -2,17 +2,16 @@
 
 namespace console\controllers;
 
-use console\helpers\CurlHelper;
-use console\helpers\DateHelper;
+use common\helpers\CurlHelper;
+use common\helpers\DateHelper;
 use console\models\Staff;
 use console\models\TimeDaemons;
 use yii\console\Controller;
-use console\helpers\RocketChatHelper;
-use yii\helpers\HtmlPurifier;
+use common\helpers\RocketChatHelper;
 
 class EntertainmentController extends Controller
 {
-    public $channel = 'overflow_cold_wallets';
+    public $channel = 'entertainment';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
@@ -185,12 +184,13 @@ class EntertainmentController extends Controller
     public function actionOtchet()
     {
         var_dump('start');
-        $ids = [264, 240, 245, 239, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225];
+        $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225];
         $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
         $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
 
         foreach ($staff as $key) {
-            RocketChatHelper::sendMessage($key['rocket_chat_id'], $text);
+            RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
+            sleep(7);
             var_dump($key['rocket_chat_id']);
         }
 

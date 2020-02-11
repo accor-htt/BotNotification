@@ -1,8 +1,6 @@
 <?php
 
-
-namespace console\helpers;
-
+namespace common\helpers;
 
 class CurlHelper
 {
