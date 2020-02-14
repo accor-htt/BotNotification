@@ -183,18 +183,18 @@ class EntertainmentController extends Controller
 
     public function actionOtchet()
     {
-        var_dump('start');
-        $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225];
+        var_dump('start['.date('Y-m-d H:i:s').']');
+        $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246];
         $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
         $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
 
         foreach ($staff as $key) {
             RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
-            sleep(7);
+            sleep(5);
             var_dump($key['rocket_chat_id']);
         }
 
         var_dump('work done');
-        die();
+        sleep($this->twenty_four_hours);
     }
 }
