@@ -8,6 +8,14 @@ class DateHelper
         return (date('N', strtotime($date)) >= 6);
     }
 
+    public static function isEnglishWednesday($date) {
+        return (date('N', strtotime($date)) == 3);
+    }
+
+    public static function isEnglishFriday($date) {
+        return (date('N', strtotime($date)) == 5);
+    }
+
     public static function getTime()
     {
         // Вывод даты на русском

@@ -131,7 +131,7 @@ class EntertainmentController extends Controller
             $response = $client->get($url);
 
             $message2 = (string)$response->getBody();
-            RocketChatHelper::sendMessage("faq_dnya", $message2);
+            RocketChatHelper::sendMessage("faq_dnya", 'Если Савчук Сергей стирает носки, значит они у него последние...');
             sleep($this->twenty_four_hours);
         }
     }
@@ -183,18 +183,25 @@ class EntertainmentController extends Controller
 
     public function actionOtchet()
     {
-        var_dump('start['.date('Y-m-d H:i:s').']');
-        $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246];
-        $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
-        $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
+        while(true) {
+            if (DateHelper::isWeekend(date('Y-m-d'))) {
+                var_dump('today weekend');
+                sleep($this->twenty_four_hours);
+                continue;
+            }
+            var_dump('start['.date('Y-m-d H:i:s').']');
+            $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246];
+            $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
+            $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
 
-        foreach ($staff as $key) {
-            RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
-            sleep(5);
-            var_dump($key['rocket_chat_id']);
+            foreach ($staff as $key) {
+                RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
+                sleep(5);
+                var_dump($key['rocket_chat_id']);
+            }
+
+            var_dump('work done');
+            sleep($this->twenty_four_hours);
         }
-
-        var_dump('work done');
-        sleep($this->twenty_four_hours);
     }
 }

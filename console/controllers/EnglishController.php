@@ -2,34 +2,37 @@
 
 namespace console\controllers;
 
-use console\models\Channels;
-use console\helpers\RocketChatHelper;
-use console\models\TimeDaemons;
+use common\helpers\DateHelper;
 use yii\console\Controller;
+use common\helpers\RocketChatHelper;
 
 class EnglishController extends Controller
 {
-//    public $channel = 'english';
-    public $channel = 'overflow_cold_wallets';
+    public $channel = 'declaration';
+    public $twenty_four_hours = 86400;
 
     public function actionIndex()
     {
-        $time = '16:00:00';
         while(true) {
 
-//            $dateNow =
+            $date = date('Y-m-d');
 
-            $model = TimeDaemons::find()->where(['name' => $this->channel])->one();
-            if (empty($model)) {
-                $model = new TimeDaemons();
-                $model->name = $this->channel;
-                $model->last_time_work = time();
+            if (DateHelper::isWeekend($date)) {
+                var_dump('today weekend');
+                sleep($this->twenty_four_hours);
+                continue;
             }
 
-            $message = '@all, Завтра вечером будет английский, не забудьте сегодня сделать домашнюю работу.
-            Ссылка на задания: https://drive.google.com/drive/folders/1uOKONwT3E2rY3VmLnIT1dtNU2zesDQ4q?usp=sharing';
-            RocketChatHelper::sendMessage($this->channel, $message);
-            sleep(7200);
+            if (DateHelper::isEnglishWednesday($date) || DateHelper::isEnglishFriday($date)) {
+                $message = '@all, Hello. Напоминаю, что сегодня у нас английский в 17:00 и 18:00
+                [Ссылка на задания](https://drive.google.com/drive/folders/1uOKONwT3E2rY3VmLnIT1dtNU2zesDQ4q?usp=sharing)';
+                RocketChatHelper::sendMessage($this->channel, $message);
+                sleep($this->twenty_four_hours);
+            } else {
+                var_dump('today not friday or wednesday');
+                sleep($this->twenty_four_hours);
+                continue;
+            }
         }
     }
 }
