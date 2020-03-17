@@ -55,7 +55,7 @@ class TestController extends Controller
             }
         }
 
-        if (!empty($temp)) RocketChatHelper::sendMessage('overflow_cold_wallets', 'Дежурные сегодня:'.$temp);
+        if (!empty($temp)) RocketChatHelper::sendMessage('overflow_cold_wallets', '@all, Дежурные сегодня:'.$temp);
 
         var_dump($temp);
     }
