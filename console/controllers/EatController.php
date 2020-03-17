@@ -12,24 +12,17 @@ use yii\db\Query;
 class EatController extends Controller
 {
     public $channel = 'eat';
-//    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
     {
-        while (true) {
+        if (DateHelper::isWeekend(date('Y-m-d H:i:s'))) { return 0; }
 
-            if (DateHelper::isWeekend(date('Y-m-d H:i:s'))) {
-                sleep($this->twenty_four_hours);
-                continue;
-            }
-
-            $time = '16:20';
-            $message = '@all Ребята, не забудьте заказать еду! Заказ будет отправлен в '.$time.', нужно всем успеть до этого времени.
-            [Таблица еды](https://docs.google.com/spreadsheets/d/1FCC-JUso0_t80OZyGKJ7ZQFZ1T90pQkm612-asNnbpM)';
-            RocketChatHelper::sendMessage($this->channel, $message);
-            sleep($this->twenty_four_hours);
-        }
+        $time = '16:20';
+        $message = '@all Ребята, не забудьте заказать еду! Заказ будет отправлен в '.$time.', нужно всем успеть до этого времени.
+           [Таблица еды](https://docs.google.com/spreadsheets/d/1FCC-JUso0_t80OZyGKJ7ZQFZ1T90pQkm612-asNnbpM)';
+        RocketChatHelper::sendMessage($this->channel, $message);
+        return 0;
     }
 
     // Дежурные

@@ -107,33 +107,21 @@ class EntertainmentController extends Controller
 
     public function actionFactDay()
     {
-        while (true) {
+        if (DateHelper::isWeekend(date('Y-m-d'))) { return 0; }
+        $count = Staff::find()->count();
+        $rand = rand(0, $count - 1);
+        $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
 
-            if (DateHelper::isWeekend(date('Y-m-d'))) {
-                var_dump('today weekend');
-                sleep($this->twenty_four_hours);
-                continue;
-            }
-
-            $count = Staff::find()->count();
-            $rand = rand(0, $count - 1);
+        if (empty($nameVictim)) {
+            $rand = rand(0, $count);
             $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
-
-            if (empty($nameVictim)) {
-                $rand = rand(0, $count);
-                $nameVictim = Staff::find()->asArray()->all()[$rand]['username'];
-            }
-
-            var_dump($nameVictim);
-            $url = "https://slogen.ru/ajax/slogan.php?type=2&word=" . $nameVictim;
-
-            $client = new \GuzzleHttp\Client();
-            $response = $client->get($url);
-
-            $message2 = (string)$response->getBody();
-            RocketChatHelper::sendMessage("faq_dnya", 'Если Савчук Сергей стирает носки, значит они у него последние...');
-            sleep($this->twenty_four_hours);
         }
+
+        $url = "https://slogen.ru/wp-content/themes/homkartath/ajax/slogan.php?type=2&word=" . $nameVictim;
+        $client = new \GuzzleHttp\Client();
+        $response = $client->get($url);
+        $message2 = (string)$response->getBody();
+        RocketChatHelper::sendMessage("faq_dnya", $message2);
     }
 
     public function actionHappyDay()
@@ -181,27 +169,22 @@ class EntertainmentController extends Controller
         }
     }
 
-    public function actionOtchet()
+    public function actionReport()
     {
-        while(true) {
-            if (DateHelper::isWeekend(date('Y-m-d'))) {
-                var_dump('today weekend');
-                sleep($this->twenty_four_hours);
-                continue;
-            }
-            var_dump('start['.date('Y-m-d H:i:s').']');
-            $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246];
-            $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
-            $staff = Staff::find()->select('rocket_chat_id')->where(['IN', 'id', $ids])->asArray()->all();
-
-            foreach ($staff as $key) {
-                RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
-                sleep(5);
-                var_dump($key['rocket_chat_id']);
-            }
-
-            var_dump('work done');
-            sleep($this->twenty_four_hours);
+        if (DateHelper::isWeekend(date('Y-m-d'))) {
+            return 0;
         }
+        $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246];
+        $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
+        $staff = Staff::find()
+            ->select('rocket_chat_id')
+            ->where(['IN', 'id', $ids])
+            ->asArray()
+            ->all();
+        foreach ($staff as $key) {
+            RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
+            sleep(5);
+        }
+        return 0;
     }
 }

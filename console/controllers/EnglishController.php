@@ -9,6 +9,7 @@ use common\helpers\RocketChatHelper;
 class EnglishController extends Controller
 {
     public $channel = 'declaration';
+//    public $channel = 'overflow_cold_wallets';
     public $twenty_four_hours = 86400;
 
     public function actionIndex()
