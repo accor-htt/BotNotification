@@ -16,7 +16,7 @@ class TestController extends Controller
         $allPath    = $runtime . $name;
         $csv        = array_map('str_getcsv', file($allPath));
 
-        $date = date('Y-m-d');
+        $date = date('d.m.Y');
 //        $date = "20.03.2020";
 
         if (DateHelper::isWeekend($date)) {
@@ -55,7 +55,7 @@ class TestController extends Controller
             }
         }
 
-        if (!empty($temp)) RocketChatHelper::sendMessage('overflow_cold_wallets', '@all, Дежурные сегодня:'.$temp);
+        if (!empty($temp)) RocketChatHelper::sendMessage('eat', '@all, Дежурные сегодня:'.$temp);
 
         var_dump($temp);
     }
