@@ -16,64 +16,32 @@ class EntertainmentController extends Controller
 
     public function actionIndex()
     {
-        $time = '11:00:00';
-        $daemon = 'birthday_daemon';
-        while(true) {
+        $name = '/Info.csv';
+        $runtime    = \Yii::getAlias('@runtime');
+        $allPath    = $runtime . $name;
+        $csv        = array_map('str_getcsv', file($allPath));
 
-            $dateNow        = date('m-d');
-            $currentYear    = date('Y');
-            $birthday = Staff::find()->asArray()->all();
+        $dateNow = date('m-d');
 
-            $dateNow = date('H:i:s', strtotime('+7 hours'));
-            $model = TimeDaemons::find()->where(['name' => $daemon])->one();
-            if (empty($model)) {
+        foreach ($csv as $birth) {
 
-                if (strtotime($time) != strtotime($dateNow)) {
-                    $sleep = strtotime($time) - strtotime($dateNow);
-                    var_dump($sleep);
-                    sleep($sleep);
-                }
-
-                if ( !empty($birthday)) {
-                    foreach ($birthday as $birth) {
-                        if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
-                            $name = explode(' ', $birth['username']);
-                            $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
-                            $client = new \GuzzleHttp\Client();
-                            $response = $client->get($url);
-                            $message2 = (string)$response->getBody();
-                            $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
-                        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
-                            RocketChatHelper::sendMessage($this->channel, $message);
-                            sleep(30);
-                        }
-                    }
-                }
-
-                $model = new TimeDaemons();
-                $model->name = $daemon;
-                $model->last_time_work = time() + 7 * 3600;
-                sleep($this->twenty_four_hours);
-                continue;
+            if (date('m-d', strtotime($birth[2])) == $dateNow) {
+                var_dump($birth);
             }
-
-            if ( !empty($birthday)) {
-                foreach ($birthday as $birth) {
-                    if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
-                        $name = explode(' ', $birth['username']);
-                        $url = "https://slogen.ru/ajax/slogan.php?type=1&word=".$name[1];
-                        $client = new \GuzzleHttp\Client();
-                        $response = $client->get($url);
-                        $message2 = (string)$response->getBody();
-                        $message = 'Сегодня у нас праздник! День рождение! '.$birth['rocket_chat_id'].', принимай поздравление. 
-                        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: '.$message2;
-                        RocketChatHelper::sendMessage($this->channel, $message);
-                        sleep(30);
-                    }
-                }
-            }
-            sleep($this->twenty_four_hours);
         }
+//        foreach ($birthday as $birth) {
+//            if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
+//                $name = explode(' ', $birth['username']);
+//                $url = "https://slogen.ru/ajax/slogan.php?type=1&word=" . $name[1];
+//                $client = new \GuzzleHttp\Client();
+//                $response = $client->get($url);
+//                $message2 = (string)$response->getBody();
+//                $message = 'Сегодня у нас праздник! День рождение! ' . $birth['rocket_chat_id'] . ', принимай поздравление.
+//                       А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: ' . $message2;
+//                RocketChatHelper::sendMessage($this->channel, $message);
+//                sleep(30);
+//            }
+//        }
     }
 
     public function actionCoursesAndBooks()
