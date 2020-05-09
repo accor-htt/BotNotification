@@ -6,6 +6,8 @@ use common\helpers\CurlHelper;
 use common\helpers\DateHelper;
 use console\models\Staff;
 use console\models\TimeDaemons;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use yii\console\Controller;
 use common\helpers\RocketChatHelper;
 
@@ -16,19 +18,28 @@ class EntertainmentController extends Controller
 
     public function actionIndex()
     {
-        $name = '/Info.csv';
-        $runtime    = \Yii::getAlias('@runtime');
-        $allPath    = $runtime . $name;
-        $csv        = array_map('str_getcsv', file($allPath));
-
+        $url     = getenv('TABLE_DATA_STAFF');
+        $csv     = file_get_contents($url);
+        $staff   = CurlHelper::csvStringToArray($csv);
         $dateNow = date('m-d');
 
-        foreach ($csv as $birth) {
+        $url        = "http://pozdravlala.ru/gen";
+        $value      = "[1,0,1,0,0]";
+        $httpClient = new Client();
+        $response   = ($httpClient->post($url, [RequestOptions::BODY => $value]))->getBody();
+        $str        = CurlHelper::clearStrDayBirthday(CurlHelper::decodeUnicodeEscape($response));
+        var_dump($str);
+        die;
 
-            if (date('m-d', strtotime($birth[2])) == $dateNow) {
-                var_dump($birth);
+        $message = 'Сегодня у нас праздник! День рождение! ' . $data[1] . ', принимай поздравление. 
+        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: ' . $message2;
+
+        foreach ($staff as $data) {
+            if (date('m', strtotime($data[2])) == 5) {
+                var_dump($data);
             }
         }
+
 //        foreach ($birthday as $birth) {
 //            if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
 //                $name = explode(' ', $birth['username']);

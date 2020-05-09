@@ -2,8 +2,8 @@
 
 namespace console\controllers;
 
-use console\helpers\JiraHelper;
-use console\helpers\RocketChatHelper;
+use common\helpers\JiraHelper;
+use common\helpers\RocketChatHelper;
 use console\models\Staff;
 use yii\console\Controller;
 
