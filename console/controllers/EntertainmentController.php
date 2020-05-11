@@ -23,36 +23,57 @@ class EntertainmentController extends Controller
         $staff   = CurlHelper::csvStringToArray($csv);
         $dateNow = date('m-d');
 
-        $url        = "http://pozdravlala.ru/gen";
-        $value      = "[1,0,1,0,0]";
-        $httpClient = new Client();
-        $response   = ($httpClient->post($url, [RequestOptions::BODY => $value]))->getBody();
-        $str        = CurlHelper::clearStrDayBirthday(CurlHelper::decodeUnicodeEscape($response));
-        var_dump($str);
-        die;
+        unset($staff[0]);
 
-        $message = 'Сегодня у нас праздник! День рождение! ' . $data[1] . ', принимай поздравление. 
-        А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: ' . $message2;
+        $happyPeople = [];
 
         foreach ($staff as $data) {
-            if (date('m', strtotime($data[2])) == 5) {
-                var_dump($data);
+            if (date('m-d', strtotime($data[2])) == $dateNow) {
+                $happyPeople[] = $data[1];
             }
         }
 
-//        foreach ($birthday as $birth) {
-//            if (date('m-d', strtotime($birth['date_birthday'])) == $dateNow) {
-//                $name = explode(' ', $birth['username']);
-//                $url = "https://slogen.ru/ajax/slogan.php?type=1&word=" . $name[1];
-//                $client = new \GuzzleHttp\Client();
-//                $response = $client->get($url);
-//                $message2 = (string)$response->getBody();
-//                $message = 'Сегодня у нас праздник! День рождение! ' . $birth['rocket_chat_id'] . ', принимай поздравление.
-//                       А лично от себя я тоже хочу тебя поздравить и поделюсь с тобой кусочком своей мудрости. Слушай: ' . $message2;
-//                RocketChatHelper::sendMessage($this->channel, $message);
-//                sleep(30);
-//            }
-//        }
+        if (!empty($happyPeople)) {
+            $iteration = 1;
+            foreach ($happyPeople as $people) {
+
+                $url        = "http://pozdravlala.ru/gen";
+                $value      = "[1,0,1,0,0]";
+                $httpClient = new Client();
+                $response   = ($httpClient->post($url, [RequestOptions::BODY => $value]))->getBody();
+                $str        = CurlHelper::clearStrDayBirthday(CurlHelper::decodeUnicodeEscape($response));
+
+                if (empty($str)) {
+                    $str = 'C днём рождения тебя! Желаю тебе благополучия, удачи и чтобы тебе всегда светила счастливая звезда! Всю свою жизнь оставайся таким же надёжным человеком!';
+                }
+
+                if ($iteration == 1) {
+                    $message = ':partying_face: Сегодня у нас праздник! День рождение!' .
+                        $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
+                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                } elseif($iteration == 2) {
+                    $message = ':partying_face: Праздник не приходит один. День рождение! ' .
+                        $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
+                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                } elseif($iteration == 3) {
+                    $message = ':partying_face: Cпешу вам сообщить. День рождение! ' .
+                        $people . ', '.$str.
+                        '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
+                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                } elseif($iteration == 4) {
+                    $message = ':partying_face: Сегодня очень особенный день. День рождение! '.
+                        $people . ', '.$str.
+                        '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
+                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                }
+                else {
+                    $message = ':partying_face: Никогда бы не подумал, что праздника может быть так много. День рождение! ' . $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
+                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                }
+                $iteration++;
+                sleep(5);
+            }
+        }
     }
 
     public function actionCoursesAndBooks()
