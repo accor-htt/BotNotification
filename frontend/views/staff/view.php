@@ -36,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_birthday',
             'date_start_work',
             'departament',
+            'report_sigen_roy',
         ],
     ]) ?>
 

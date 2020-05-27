@@ -14,6 +14,7 @@ use Yii;
  * @property string|null $date_birthday
  * @property string|null $date_start_work
  * @property int|null $departament
+ * @property boolean|null $report_sigen_roy
  */
 class Staff extends \yii\db\ActiveRecord
 {
@@ -35,6 +36,7 @@ class Staff extends \yii\db\ActiveRecord
             [['departament'], 'default', 'value' => null],
             [['departament'], 'integer'],
             [['username', 'rocket_chat_id', 'email'], 'string', 'max' => 255],
+            [['report_sigen_roy'], 'boolean'],
         ];
     }
 
@@ -51,6 +53,7 @@ class Staff extends \yii\db\ActiveRecord
             'date_birthday' => 'Date Birthday',
             'date_start_work' => 'Date Start Work',
             'departament' => 'Departament',
+            'report_sigen_roy' => 'report_sigen_roy',
         ];
     }
 }

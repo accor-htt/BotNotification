@@ -18,7 +18,7 @@ class StaffSearch extends Staff
     {
         return [
             [['id', 'departament'], 'integer'],
-            [['username', 'rocket_chat_id', 'email', 'date_birthday', 'date_start_work'], 'safe'],
+            [['username', 'rocket_chat_id', 'email', 'date_birthday', 'date_start_work', 'report_sigen_roy'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class StaffSearch extends Staff
             'date_birthday' => $this->date_birthday,
             'date_start_work' => $this->date_start_work,
             'departament' => $this->departament,
+            'report_sigen_roy' => $this->report_sigen_roy,
         ]);
 
         $query->andFilterWhere(['ilike', 'username', $this->username])

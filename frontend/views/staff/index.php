@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'rocket_chat_id',
             'email:email',
             'date_birthday',
+            'report_sigen_roy',
             //'date_start_work',
             //'departament',
 
