@@ -50,25 +50,25 @@ class EntertainmentController extends Controller
                 if ($iteration == 1) {
                     $message = ':partying_face: Сегодня у нас праздник! День рождение!' .
                         $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                    RocketChatHelper::sendMessage($this->channel, $message);
                 } elseif($iteration == 2) {
                     $message = ':partying_face: Праздник не приходит один. День рождение! ' .
                         $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                    RocketChatHelper::sendMessage($this->channel, $message);
                 } elseif($iteration == 3) {
                     $message = ':partying_face: Cпешу вам сообщить. День рождение! ' .
                         $people . ', '.$str.
                         '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                    RocketChatHelper::sendMessage($this->channel, $message);
                 } elseif($iteration == 4) {
                     $message = ':partying_face: Сегодня очень особенный день. День рождение! '.
                         $people . ', '.$str.
                         '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                    RocketChatHelper::sendMessage($this->channel, $message);
                 }
                 else {
                     $message = ':partying_face: Никогда бы не подумал, что праздника может быть так много. День рождение! ' . $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage('overflow_cold_wallets', $message);
+                    RocketChatHelper::sendMessage($this->channel, $message);
                 }
                 $iteration++;
                 sleep(5);
@@ -174,6 +174,7 @@ class EntertainmentController extends Controller
         if (DateHelper::isWeekend(date('Y-m-d'))) {
             return 0;
         }
+
         $ids = [264, 240, 245, 226, 237, 229, 265, 266, 239, 256, 255, 232, 233, 247, 236, 267, 228, 244, 252, 262, 268, 225, 246, 273];
         $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @koltays-anastasia до 11:50. Отличного настроения и хорошего дня ☺";
         $staff = Staff::find()
@@ -183,7 +184,7 @@ class EntertainmentController extends Controller
             ->all();
         foreach ($staff as $key) {
             RocketChatHelper::sendMessage(trim($key['rocket_chat_id']), $text);
-            sleep(5);
+            sleep(7);
         }
         return 0;
     }
