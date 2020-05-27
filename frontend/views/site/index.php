@@ -20,8 +20,8 @@ $array = [1, 2, 3, 4, 5, 6];
             ?>
             <div class="col-lg-3 blocks">
                 <h2>Уведомления <?= $i+1 ?></h2>
-                <p><?= $data[0]['name'] ?></p>
-                <p>Время последнего уведомления: <?= date('Y-m-d H:i:s', $data[0]['last_time_work']) ?></p>
+<!--                <p>--><?//= $data[0]['name'] ?><!--</p>-->
+<!--                <p>Время последнего уведомления: --><?//= date('Y-m-d H:i:s', $data[0]['last_time_work']) ?><!--</p>-->
                 <div class="progress">
                     <?php $temp = rand(0,100) ?>
                     <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <?=$temp ?>%;">

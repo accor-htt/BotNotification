@@ -72,4 +72,21 @@ class TestController extends Controller
         var_dump($staff[22]);
         RocketChatHelper::sendMessage(trim($staff[22]['rocket_chat_id']), 'Раз раз раз, проверка');
     }
+
+    public function actionInput()
+    {
+        $name = '/staff.csv';
+        $runtime    = \Yii::getAlias('@runtime');
+        $allPath    = $runtime . $name;
+        $csv        = array_map('str_getcsv', file($allPath));
+        var_dump($csv);
+        foreach ($csv as $staff) {
+            if (!empty($staff[1])) {
+                $a = new Staff();
+                $a->rocket_chat_id = $staff[2];
+                $a->username = $staff[1];
+                $a->save();
+            }
+        }
+    }
 }
