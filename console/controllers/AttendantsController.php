@@ -41,7 +41,7 @@ class AttendantsController extends Controller
         $channel = $this->getChannel($number_office);
 
         if (!empty($attendats)) {
-            RocketChatHelper::sendMessage('overflow_cold_wallets', '@all, Дежурные сегодня:'.$temp);
+            RocketChatHelper::sendMessage($channel, '@all, Дежурные сегодня:'.$attendats);
         }
     }
 
@@ -51,7 +51,7 @@ class AttendantsController extends Controller
 
         $channel = [
             'eat',
-            'kakto-tam'
+            'general-enisejskaya'
         ];
 
         return $channel[$number_office];
