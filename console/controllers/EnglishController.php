@@ -17,7 +17,7 @@ class EnglishController extends Controller
             return false;
         }
 
-        $message = '@all, Hello. Напоминаю, что сегодня у нас английский в 17:00 и 18:00';
+        $message = '@all, Hello. Напоминаю, сегодня в 18.00 и 19.00 английский язык в конференц-зале на Кирова.';
         RocketChatHelper::sendMessage($this->channel, $message);
     }
 }
