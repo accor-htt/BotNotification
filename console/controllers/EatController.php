@@ -2,16 +2,14 @@
 
 namespace console\controllers;
 
+use yii\console\Controller;
 use common\helpers\DateHelper;
 use common\helpers\RocketChatHelper;
-use console\models\Staff;
-use console\models\TimeDaemons;
-use yii\console\Controller;
-use yii\db\Query;
 
 class EatController extends Controller
 {
-    public $channel = 'eat';
+    public $channel         = 'eat';
+    public $second_channel  = 'general-enisejskaya';
 
     public function actionIndex()
     {
@@ -22,6 +20,8 @@ class EatController extends Controller
            [Таблица еды](https://docs.google.com/spreadsheets/d/1FCC-JUso0_t80OZyGKJ7ZQFZ1T90pQkm612-asNnbpM).
            А так же, если вы вдруг заболели или не придете на следующий день, то пожалуйста, убери свой заказ.';
         RocketChatHelper::sendMessage($this->channel, $message);
+        sleep(5);
+        RocketChatHelper::sendMessage($this->second_channel, $message);
         return 0;
     }
 }
