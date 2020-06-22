@@ -17,7 +17,18 @@ class EnglishController extends Controller
             return false;
         }
 
-        $message = '@all, Hello. Напоминаю, сегодня в 18.00 и 19.00 английский язык в конференц-зале на Кирова.';
+        $message = '@all, Hello. Напоминаю, сегодня в 18.00 английский язык в конференц-зале на Кирова.';
+        RocketChatHelper::sendMessage($this->channel, $message);
+    }
+
+    public function actionHour()
+    {
+        $date = date('Y-m-d');
+        if (DateHelper::isWeekend($date)) {
+            return false;
+        }
+
+        $message = '@all, Английский язык через час в конференц-зале на Кирова.';
         RocketChatHelper::sendMessage($this->channel, $message);
     }
 }
