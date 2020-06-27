@@ -48,28 +48,23 @@ class EntertainmentController extends Controller
                 }
 
                 if ($iteration == 1) {
-                    $message = ':partying_face: Сегодня у нас праздник! День рождение!' .
-                        $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                    $message = ':partying_face: Сегодня у нас праздник! День рождение! ' .
+                        $people . ', '.$str.'. Котик посылает тебе воздушный поцелуй от себя и всего нашего дружного офиса. :kissing_cat:';
                 } elseif($iteration == 2) {
                     $message = ':partying_face: Праздник не приходит один. День рождение! ' .
-                        $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                        $people . ', '.$str.'. Котик посылает тебе воздушный поцелуй от себя и всего нашего дружного офиса. :kissing_cat:';
                 } elseif($iteration == 3) {
                     $message = ':partying_face: Cпешу вам сообщить. День рождение! ' .
-                        $people . ', '.$str.
-                        '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                        $people . ', '.$str.'. Котик посылает тебе воздушный поцелуй от себя и всего нашего дружного офиса. :kissing_cat:';
                 } elseif($iteration == 4) {
                     $message = ':partying_face: Сегодня очень особенный день. День рождение! '.
-                        $people . ', '.$str.
-                        '. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                        $people . ', '.$str.'. Котик посылает тебе воздушный поцелуй от себя и всего нашего дружного офиса. :kissing_cat:';
                 }
                 else {
-                    $message = ':partying_face: Никогда бы не подумал, что праздника может быть так много. День рождение! ' . $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
-                    RocketChatHelper::sendMessage($this->channel, $message);
+                    $message = ':partying_face: Никогда бы не подумал, что праздника может быть так много. День рождение! '
+                        . $people . ', '.$str.'. А так как котик на карантине, то посылаю тебе воздушный поцелуй от себя и всего нашего дружного офиса.';
                 }
+                RocketChatHelper::sendMessage($this->channel, $message);
                 $iteration++;
                 sleep(5);
             }
