@@ -169,7 +169,7 @@ class EntertainmentController extends Controller
             return 0;
         }
 
-        $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @volzhanskaya-yana до 11:50. Отличного настроения и хорошего дня ☺";
+        $text = "Привет! Собираю ежедневный отчет : Над чем сейчас работаешь? Ответ писать @Roman до 11:50. Отличного настроения и хорошего дня ☺";
         $staff = Staff::find()
             ->select('rocket_chat_id')
             ->where(['report_sigen_roy' => true])
